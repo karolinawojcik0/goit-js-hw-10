@@ -1,7 +1,7 @@
 import Notiflix from 'notiflix';
 import SlimSelect from 'slim-select';
 import 'slim-select/dist/slimselect.css';
-import { fetchCats, fetchCatsByID } from './cat-api';
+import { fetchBreeds, fetchCatByBreed } from './cat-api';
 
 const select = document.querySelector('#sel');
 const catContainer = document.querySelector('.cat-info');
@@ -13,12 +13,13 @@ loaderParagraph.style.display = 'none';
 errorParagraph.style.display = 'none';
 loaderAnimation.style.display = 'none';
 
-select.addEventListener('change', e => {
-  e.preventDefault();
+select.addEventListener('change', () => {
+  loaderParagraph.innerHTML = '';
   loaderParagraph.style.display = 'block';
   loaderAnimation.style.display = 'block';
   const breedID = select.value;
-  fetchCatsByID(breedID)
+
+  fetchCatByBreed(breedID)
     .then(catData => {
       const imageURL = catData[0].url;
       const header = catData[0].breeds[0].name;
@@ -34,7 +35,7 @@ select.addEventListener('change', e => {
     .catch(error => {
       loaderParagraph.style.display = 'none';
       errorParagraph.style.display = 'block';
-      markup = '';
+      const markup = '';
       catContainer.innerHTML = markup;
       loaderAnimation.style.display = 'none';
 
@@ -44,7 +45,7 @@ select.addEventListener('change', e => {
     });
 });
 
-fetchCats()
+fetchBreeds()
   .then(cat => {
     cat.forEach(breed => {
       const option = document.createElement('option');
@@ -60,3 +61,4 @@ fetchCats()
     });
   })
   .catch(error => console.log(error));
+
