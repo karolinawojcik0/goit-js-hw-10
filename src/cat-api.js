@@ -16,8 +16,10 @@ const fetchBreeds = () => {
 };
 
 const fetchCatByBreed = (breedId) => {
+  const catInfoUrl = `https://api.thecatapi.com/v1/images/search?breed_ids=${breedId}`;
+
   return axios
-    .get(`https://api.thecatapi.com/v1/images/search?breed_ids=${breedId}`)
+    .get(catInfoUrl)
     .then(response => response.data)
     .catch(error => {
       console.error(error);
@@ -26,3 +28,4 @@ const fetchCatByBreed = (breedId) => {
 };
 
 export { fetchBreeds, fetchCatByBreed, url };
+
